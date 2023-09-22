@@ -1,36 +1,17 @@
 import numpy as np
-
+from ...graph_algorithms import *
 IMPUT_FILE = "imput.txt"
-
-def rad_dim(matrix, length):
-
-    r = np.inf
-    d = -1
-
-    is_visited = [False]*length
-    queue = [0]
-    while queue:
-        i = queue.pop(0)
-        is_visited[i] = True
-        
-        for j in range(length):
-            if is_visited[j] or not matrix[i][j]:
-                continue
-            queue.append(j)
-            
-        
-
-
-    return 0
 
 def main():
     try:
-        adjacency_matrix = np.loadtxt(IMPUT_FILE)
+        adjacency_matrix = np.loadtxt(f"Tasks/Lab_02/{IMPUT_FILE}", "int")
     except:
         print("Input error.")
         return 1
+    print(adjacency_matrix)
     length = len(adjacency_matrix)
-    radius, diameter = rad_dim(adjacency_matrix, length)
+    print(dijkrsta(adjacency_matrix, length, 0))
+
     return 0
 
 if __name__ == "__main__":

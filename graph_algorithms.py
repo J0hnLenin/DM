@@ -7,8 +7,7 @@ def dijkrsta(graph, start: int = 0):
     is_visited = [False]*length
     distance_list = [np.inf]*length 
     distance_list[start] = 0
-    nearly = start
-
+    nearly = start 
     while nearly != -1:
 
         is_visited[nearly] = True
@@ -20,6 +19,7 @@ def dijkrsta(graph, start: int = 0):
         nearly = -1
         for i in range(length):    
             if (not is_visited[i]) and ((nearly == -1) or (distance_list[i] <= distance_list[nearly])):    
+                
                 nearly = i
         
     return distance_list
@@ -43,8 +43,8 @@ def bfs(graph, start: int = 0):
     
     return distance_list
 
-def create_incidence_matrix(graph) -> None:
-    incidence_matrix = []
+def create_accessibility_matrix(graph) -> None:
+    accessibility_matrix = []
     length = graph.length
 
     for i in range(length):
@@ -55,7 +55,27 @@ def create_incidence_matrix(graph) -> None:
         for j in range(length):
             line[j] = (distance_list[j] != np.inf)
 
-        incidence_matrix.append(line)
+        accessibility_matrix.append(line)
 
-    return np.matrix(incidence_matrix)
+    return np.matrix(accessibility_matrix)
+
+# def prima(graph, start: int = 0):
+#     length = graph.length
+#     matrix = graph.adjacency_matrix
+#     visited_vertexes = {start}
+#     prima_matrix = np.zeros(length, int)
+
+#     while len(visited_vertexes) != length:
+#         min_mass = np.inf
+#         son = None
+#         for i in visited_vertexes:
+#             for j in range(length):
+#                 if (not j in visited_vertexes) and matrix[i][j] < min_mass: 
+#                     father = i
+#                     son = j
+#                     min_mass = matrix[i][j]
+#         visited_vertexes.add(nearly)
+#         prima_matrix[][j]
+
+
         

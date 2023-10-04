@@ -39,6 +39,13 @@ def print_graph(graph):
     nx.draw(graph, with_labels = True)
     plt.show()
 
+def print_weight_graph(graph):
+    pos = nx.spring_layout(graph)
+    nx.draw(graph, pos, with_labels = True)
+    labels = nx.get_edge_attributes(graph, "weight")
+    nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+    plt.show()
+
 def dijkrsta(graph, start: int = 0):
     matrix = nx.adjacency_matrix(graph).todense()
     length = len(matrix)
@@ -102,6 +109,47 @@ def create_accessibility_matrix(graph) -> None:
         accessibility_matrix.append(line)
 
     return np.matrix(accessibility_matrix)
+
+def print_matrix(Matrix, t):
+    print(" ", end=' ')
+    for i in range(1, N + 1):
+        print(str(i).ljust(t), end=' ')
+    print()
+
+    for i in range(N):
+        print(i+1, end=' ')
+        for j in range(N):
+            print(str(Matrix[i][j]).ljust(t), end=' ')
+        print()
+    print()
+
+def floid(G, N):
+    # Инициализируем матрицы:
+    # adj_matrix - смежности
+    # sd_matrix  - путевая
+    # way_matrix - кратчайших расстояний
+
+    adj_matrix = nx.adjacency_matrix(G).todense()
+    sd_matrix = []
+
+    for i in range(N):
+        sd_matrix.append([(j if j != 0 else np.inf) for j in adj_matrix[i]])
+        sd_matrix[i][i] = 0
+
+    way_matrix = [[[] for j in range(N)] for i in range(N)]
+    for i in range(N):
+        for j in range(N):
+            if sd_matrix[i][j] != np.inf:
+                way_matrix[i][j] = [i+1, j+1]
+    
+    # заполняем матрицы:
+    for k in range(N):
+        for i in range(N):
+            for j in range(N):
+                if sd_matrix[i][j] > sd_matrix[i][k] + sd_matrix[k][j]:
+                    sd_matrix[i][j] = sd_matrix[i][k] + sd_matrix[k][j]
+                    way_matrix[i][j] = way_matrix[i][k][:-1] + way_matrix[k][j]
+    return sd_matrix, way_matrix
 
 # def prima(graph, start: int = 0):
 #     length = graph.length

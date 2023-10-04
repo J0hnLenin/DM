@@ -4,20 +4,14 @@
 
 import numpy as np
 from graph_algorithms import *
-from Graph import Graph
-INPUT_FILE = "input.txt"
 
 def main():
     
-    try:
-        adjacency_matrix = np.loadtxt(f"Input/{INPUT_FILE}", "int")
-    except:
-        print("File reading error.")
-        return 1
-  
-    G = Graph(adjacency_matrix)
+    G = generate_Graph(n=0)
 
+    print(nx.adjacency_matrix(G).todense())
     print(create_accessibility_matrix(G))
+    print_graph(G)
          
     return 0
 

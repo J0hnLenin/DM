@@ -8,21 +8,29 @@ from graph_algorithms import *
 
 def main():
 
-    N = random.randint(4, 6)
+    N = 5
+    G = generate_Graph(N, weight=True, orented=True, connected=True)
 
-    G = generate_Graph(N, weight=True, orented=True)
+    # Ищем исток и сток. Если таких несколько, берём с наименьшим индексом. 
+    # Если таких нет - назначаем истоком вершину 0, стоком - вершину n-1
+    start, finish = find_start_and_finish(G)
+
     adj_matrix = nx.adjacency_matrix(G).todense()
-    ans, way_matrix = ford(G)
+    ways, fluxs = ford(G, start, finish)
 
     # вывод:
     print("Матрица смежности:")
     print_matrix(adj_matrix, 3, N)
 
-    print("Путевая матрица:")
-    print_matrix(way_matrix, 12, N)
-
+    print(f"Исток: {start}")
+    print(f"Сток: {finish}")
+    print()
+    print("Величины путей и пути:")
+    for i in range(len(ways)):
+        print(fluxs[i], ways[i])
+    print()
     print("Наибольный поток:")
-    print(ans)
+    print(sum(fluxs))
 
     print_weight_graph(G)
     return 0
